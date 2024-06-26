@@ -1,42 +1,195 @@
+// Variables
+$primary-color: #4CAF50;
+$secondary-color: #f44336;
+$background-color: #f9f9f9;
+$text-color: #333;
+$border-radius: 5px;
+$box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+// Root styles
 #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  background-color: $background-color;
+  color: $text-color;
+  font-family: Arial, sans-serif;
+  border-radius: $border-radius;
+  box-shadow: $box-shadow;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+// Form styles
+.form {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+form {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  input {
+    margin: 0.5rem;
+    padding: 0.5rem;
+    width: 10rem;
+    border-radius: $border-radius;
+    border: 1px solid #ddd;
+    box-shadow: $box-shadow;
   }
-  to {
-    transform: rotate(360deg);
+
+  .add {
+    margin: 0.5rem;
+    padding: 0.5rem 1rem;
+    background-color: $primary-color;
+    color: white;
+    border: none;
+    border-radius: $border-radius;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: darken($primary-color, 10%);
+    }
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+// Booklist styles
+.booklist {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 2rem;
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 0 auto;
+
+    td, th {
+      padding: 1rem;
+      border: 1px solid #ddd;
+      text-align: left;
+    }
+
+    th {
+      background-color: $primary-color;
+      color: white;
+    }
+
+    tr button {
+      background-color: $secondary-color;
+      color: white;
+      border: none;
+      border-radius: $border-radius;
+      cursor: pointer;
+      margin-left: 1rem;
+      padding: 0.5rem 1rem;
+      transition: background-color 0.3s;
+
+      &:hover {
+        background-color: darken($secondary-color, 10%);
+      }
+    }
   }
 }
 
-.card {
-  padding: 2em;
+// Form input styles
+.forminput {
+  display: flex;
+  flex-direction: row;
 }
 
-.read-the-docs {
-  color: #888;
+.search-bar {
+  margin: 1rem auto;
+  text-align: center;
+
+  input {
+    width: 13rem;
+    height: 2rem;
+    margin-top: 1rem;
+    border-radius: $border-radius;
+    border: 1px solid #ddd;
+    box-shadow: $box-shadow;
+  }
+}
+
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+
+  button {
+    margin: 0 0.5rem;
+    padding: 0.5rem 1rem;
+    background-color: $primary-color;
+    color: white;
+    border: none;
+    border-radius: $border-radius;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    &:disabled {
+      background-color: #ccc;
+    }
+
+    &:hover:not(:disabled) {
+      background-color: darken($primary-color, 10%);
+    }
+  }
+
+  span {
+    margin: 0 0.5rem;
+  }
+}
+
+// Boolean list styles
+.boolist {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 2rem;
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+
+    th, td {
+      padding: 1rem;
+      border: 1px solid #ddd;
+      text-align: left;
+      background-color: white;
+      border-radius: $border-radius;
+      box-shadow: $box-shadow;
+    }
+
+    th {
+      background-color: $primary-color;
+      color: white;
+    }
+
+    button {
+      margin-left: 0.5rem;
+      padding: 0.5rem 1rem;
+      background-color: $secondary-color;
+      color: white;
+      border: none;
+      border-radius: $border-radius;
+      cursor: pointer;
+      transition: background-color 0.3s;
+
+      &:hover {
+        background-color: darken($secondary-color, 10%);
+      }
+    }
+  }
 }

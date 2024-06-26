@@ -1,6 +1,8 @@
 
 import React, { useRef } from 'react';
 import { Action } from '../types';
+import '../App.scss'
+
 
 interface BookFormProps {
     dispatch: React.Dispatch<Action>

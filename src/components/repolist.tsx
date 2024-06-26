@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Book, Action } from '../types';
+import '../App.scss';
 
 interface BookListProps {
     books: Book[];
@@ -36,7 +37,9 @@ const BookList: React.FC<BookListProps> = ({ books, dispatch }) => {
     };
 
     return (
-        <table>
+        <div className="boolist">
+        <table border={1} >
+
             <thead>
                 <tr>
                     <th>Title</th>
@@ -101,6 +104,7 @@ const BookList: React.FC<BookListProps> = ({ books, dispatch }) => {
                 ))}
             </tbody>
         </table>
+        </div>
     );
 };
 
