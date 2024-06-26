@@ -109,4 +109,3 @@ const BookList: React.FC<BookListProps> = ({ books, dispatch }) => {
 };
 
 export default BookList;
-

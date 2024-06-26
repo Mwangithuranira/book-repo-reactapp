@@ -11,6 +11,7 @@ export interface State {
     searchQuery: string;
     currentPage: number;
     booksPerPage: number;
+
 }
 
 export type Action =
