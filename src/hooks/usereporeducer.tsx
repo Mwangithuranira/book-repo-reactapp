@@ -1,4 +1,4 @@
-import { Book, State, Action } from "../types";
+import { Book, State, Action } from '../types';
 import { useReducer, useEffect } from "react";
 import useLocalStorage from "./uselocalstorage";
 
@@ -40,8 +40,8 @@ export const reducer = (state: State, action: Action): State => {
 };
 
 export const useBooksReducer = () => {
-  const [storedBooks, setStoredBooks] = useLocalStorage<Book[]>("books", []);
-  const [storedCurrentPage, setStoredCurrentPage] = useLocalStorage<number>("currentPage", initialstate.currentPage);
+  const [storedBooks, setStoredBooks] = useLocalStorage<Book[]>("books", [],'/api/books');
+  const [storedCurrentPage, setStoredCurrentPage] = useLocalStorage<number>("currentPage", initialstate.currentPage,'/api/books');
   
   const [state, dispatch] = useReducer(reducer, { 
     ...initialstate, 

@@ -1,31 +1,31 @@
-
 import React, { useRef } from 'react';
-import { Action } from '../types';
-import '../App.scss'
-
+import '../App.scss';
 
 interface BookFormProps {
-    dispatch: React.Dispatch<Action>
+    addBook: (newBook: { title: string; author: string; year: number }) => Promise<void>;
 }
 
-const Repoitem: React.FC<BookFormProps> = ({ dispatch }) => {
+const Repoitem: React.FC<BookFormProps> = ({ addBook }) => {
     const titleRef = useRef<HTMLInputElement>(null);
     const authorRef = useRef<HTMLInputElement>(null);
     const yearRef = useRef<HTMLInputElement>(null);
 
-    const handleSubmit = (event: React.FormEvent) => {
+    const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
         if (titleRef.current && authorRef.current && yearRef.current) {
             const newBook = {
-                id: Date.now(),
                 title: titleRef.current.value,
                 author: authorRef.current.value,
                 year: Number(yearRef.current.value),
             };
-            dispatch({ type: 'ADD_BOOK', payload: newBook });
-            titleRef.current.value = '';
-            authorRef.current.value = '';
-            yearRef.current.value = '';
+            try {
+                await addBook(newBook);
+                titleRef.current.value = '';
+                authorRef.current.value = '';
+                yearRef.current.value = '';
+            } catch (error) {
+                console.error('Failed to add book:', error);
+            }
         }
     };
 
