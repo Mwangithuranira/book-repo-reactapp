@@ -14,7 +14,7 @@ const App: React.FC = () => {
 
     const addBook = async (newBook: { title: string; author: string; year: number }) => {
         try {
-            const response = await fetch('/api/books', {
+            const response = await fetch('https://book-repo-backend.onrender.com/api/books', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -35,7 +35,7 @@ const App: React.FC = () => {
 
     const deleteBook = async (id: number) => {
         try {
-            const response = await fetch(`/api/books/${id}`, {
+            const response = await fetch(`https://book-repo-backend.onrender.com/api/books/${id}`, {
                 method: 'DELETE',
             });
 
@@ -51,7 +51,7 @@ const App: React.FC = () => {
 
     const updateBook = async (book: { id: number; title: string; author: string; year: number }) => {
         try {
-            const response = await fetch(`/api/books/${book.id}`, {
+            const response = await fetch(`https://book-repo-backend.onrender.com/api/books/${book.id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

@@ -40,8 +40,8 @@ export const reducer = (state: State, action: Action): State => {
 };
 
 export const useBooksReducer = () => {
-  const [storedBooks, setStoredBooks] = useLocalStorage<Book[]>("books", [],'/api/books');
-  const [storedCurrentPage, setStoredCurrentPage] = useLocalStorage<number>("currentPage", initialstate.currentPage,'/api/books');
+  const [storedBooks, setStoredBooks] = useLocalStorage<Book[]>("books", [],'https://book-repo-backend.onrender.com/api/books');
+  const [storedCurrentPage, setStoredCurrentPage] = useLocalStorage<number>("currentPage", initialstate.currentPage,'https://book-repo-backend.onrender.com/api/books');
   
   const [state, dispatch] = useReducer(reducer, { 
     ...initialstate, 
