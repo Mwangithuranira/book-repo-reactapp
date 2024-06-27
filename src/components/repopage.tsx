@@ -1,32 +1,24 @@
-
 import React from 'react';
-import { Action } from '../types';
-import '../App.scss'
 
 interface PaginationProps {
     currentPage: number;
     booksPerPage: number;
     totalBooks: number;
-    dispatch: React.Dispatch<Action>;
+    onPageChange: (page: number) => void;
 }
 
-const Page: React.FC<PaginationProps> = ({
-    currentPage,
-    booksPerPage,
-    totalBooks,
-    dispatch,
-}) => {
+const Repopage: React.FC<PaginationProps> = ({ currentPage, booksPerPage, totalBooks, onPageChange }) => {
     const totalPages = Math.ceil(totalBooks / booksPerPage);
 
     const handlePrev = () => {
         if (currentPage > 1) {
-            dispatch({ type: 'SET_CURRENT_PAGE', payload: currentPage - 1 });
+            onPageChange(currentPage - 1);
         }
     };
 
     const handleNext = () => {
         if (currentPage < totalPages) {
-            dispatch({ type: 'SET_CURRENT_PAGE', payload: currentPage + 1 });
+            onPageChange(currentPage + 1);
         }
     };
 
@@ -45,4 +37,4 @@ const Page: React.FC<PaginationProps> = ({
     );
 };
 
-export default Page;
+export default Repopage;

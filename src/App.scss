@@ -1,156 +1,135 @@
 // Variables
-$primary-color: #4CAF50;
+$primary-color: #4caf50;
 $secondary-color: #f44336;
 $background-color: #f9f9f9;
 $text-color: #333;
 $border-radius: 5px;
 $box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+$library-image: url('https://media.cntraveler.com/photos/568ae16e67dc82253d9f72cf/master/pass/Stockholm-Public-Library-Alamy.jpg'); // Replace with actual image path
 
 // Root styles
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-  background-color: $background-color;
-  color: $text-color;
-  font-family: Arial, sans-serif;
-  border-radius: $border-radius;
-  box-shadow: $box-shadow;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 2rem;
+    text-align: center;
+    background-color: $background-color;
+    color: $text-color;
+    font-family: Arial, sans-serif;
+    border-radius: $border-radius;
+    box-shadow: $box-shadow;
+    position: relative;
+    overflow: hidden;
+
+    &.app {
+        background-image: $library-image;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+}
+
+.content {
+    background-color: rgba(255, 255, 255, 0.8); // Light overlay for readability
+    padding: 2rem;
+    border-radius: $border-radius;
+    box-shadow: $box-shadow;
 }
 
 // Form styles
 .form {
-  display: flex;
-  justify-content: center;
-  margin-top: 2rem;
-}
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
 
-form {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-
-  input {
-    margin: 0.5rem;
-    padding: 0.5rem;
-    width: 10rem;
-    border-radius: $border-radius;
-    border: 1px solid #ddd;
-    box-shadow: $box-shadow;
-  }
-
-  .add {
-    margin: 0.5rem;
-    padding: 0.5rem 1rem;
-    background-color: $primary-color;
-    color: white;
-    border: none;
-    border-radius: $border-radius;
-    cursor: pointer;
-    transition: background-color 0.3s;
-
-    &:hover {
-      background-color: darken($primary-color, 10%);
+    input {
+        margin: 0.5rem;
+        padding: 0.5rem;
+        width: 10rem;
+        border-radius: $border-radius;
+        border: 1px solid #ddd;
+        box-shadow: $box-shadow;
     }
-  }
+
+    .add {
+        margin: 0.5rem;
+        padding: 0.5rem 1rem;
+        background-color: $primary-color;
+        color: white;
+        border: none;
+        border-radius: $border-radius;
+        cursor: pointer;
+        transition: background-color 0.3s;
+
+        &:hover {
+            background-color: darken($primary-color, 10%);
+        }
+    }
 }
 
 // Booklist styles
 .booklist {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  justify-content: center;
-  margin-top: 2rem;
+    margin-top: 2rem;
 
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 0 auto;
+    table {
+        width: 100%;
+        border-collapse: collapse;
 
-    td, th {
-      padding: 1rem;
-      border: 1px solid #ddd;
-      text-align: left;
+        th,
+        td {
+            padding: 1rem;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: $primary-color;
+            color: white;
+        }
+
+        tr button {
+            background-color: $secondary-color;
+            color: white;
+            border: none;
+            border-radius: $border-radius;
+            cursor: pointer;
+            margin-left: 1rem;
+            padding: 0.5rem 1rem;
+            transition: background-color 0.3s;
+
+            &:hover {
+                background-color: darken($secondary-color, 10%);
+            }
+        }
     }
-
-    th {
-      background-color: $primary-color;
-      color: white;
-    }
-
-    tr {
-      &:hover {
-        background-color: #f1f1f1;
-      }
-    }
-
-    button {
-      background-color: $secondary-color;
-      color: white;
-      border: none;
-      border-radius: $border-radius;
-      cursor: pointer;
-      margin-left: 1rem;
-      padding: 0.5rem 1rem;
-      transition: background-color 0.3s;
-
-      &:hover {
-        background-color: darken($secondary-color, 10%);
-      }
-    }
-  }
-}
-
-// Form input styles
-.forminput {
-  display: flex;
-  flex-direction: row;
-}
-
-.search-bar {
-  margin: 1rem auto;
-  text-align: center;
-
-  input {
-    width: 13rem;
-    height: 2rem;
-    margin-top: 1rem;
-    border-radius: $border-radius;
-    border: 1px solid #ddd;
-    box-shadow: $box-shadow;
-  }
 }
 
 // Pagination styles
 .pagination {
-  display: flex;
-  justify-content: center;
-  margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
 
-  button {
-    margin: 0 0.5rem;
-    padding: 0.5rem 1rem;
-    background-color: $primary-color;
-    color: white;
-    border: none;
-    border-radius: $border-radius;
-    cursor: pointer;
-    transition: background-color 0.3s;
+    button {
+        margin: 0 0.5rem;
+        padding: 0.5rem 1rem;
+        background-color: $primary-color;
+        color: white;
+        border: none;
+        border-radius: $border-radius;
+        cursor: pointer;
+        transition: background-color 0.3s;
 
-    &:disabled {
-      background-color: #ccc;
-      cursor: not-allowed;
+        &:disabled {
+            background-color: #ccc;
+        }
+
+        &:hover:not(:disabled) {
+            background-color: darken($primary-color, 10%);
+        }
     }
 
-    &:hover:not(:disabled) {
-      background-color: darken($primary-color, 10%);
+    span {
+        margin: 0 0.5rem;
     }
-  }
-
-  span {
-    margin: 0 0.5rem;
-  }
 }

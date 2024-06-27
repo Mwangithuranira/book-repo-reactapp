@@ -1,13 +1,7 @@
 import { Book, State, Action } from '../types';
-import { useReducer, useEffect } from "react";
-import useLocalStorage from "./uselocalstorage";
 
-const initialstate: State = {
-  books: [],
-  searchQuery: '',
-  currentPage: 1,
-  booksPerPage: 5,
-};
+
+
 
 export const reducer = (state: State, action: Action): State => {
   switch (action.type) {
@@ -39,48 +33,48 @@ export const reducer = (state: State, action: Action): State => {
   }
 };
 
-export const useBooksReducer = () => {
-  const [storedBooks, setStoredBooks, isSyncingBooks, booksError] = useLocalStorage<Book[]>("books", [], 'https://book-repo-backend.onrender.com/api/books');
-  const [storedCurrentPage, setStoredCurrentPage, isSyncingPage, pageError] = useLocalStorage<number>("currentPage", initialstate.currentPage, 'https://book-repo-backend.onrender.com/api/currentPage');
+// export const useBooksReducer = () => {
+//   const [storedBooks, setStoredBooks, isSyncingBooks, booksError] = useLocalStorage<Book[]>("books", [], 'https://book-repo-backend.onrender.com/api/books');
+//   const [storedCurrentPage, setStoredCurrentPage, isSyncingPage, pageError] = useLocalStorage<number>("currentPage", initialstate.currentPage, 'https://book-repo-backend.onrender.com/api/currentPage');
 
-  const [state, dispatch] = useReducer(reducer, { 
-    ...initialstate, 
-    books: storedBooks, 
-    currentPage: storedCurrentPage 
-  });
+//   const [state, dispatch] = useReducer(reducer, { 
+//     ...initialstate, 
+//     books: storedBooks, 
+//     currentPage: storedCurrentPage 
+//   });
 
-  useEffect(() => {
-    setStoredBooks(state.books);
-  }, [state.books, setStoredBooks]);
+//   useEffect(() => {
+//     setStoredBooks(state.books);
+//   }, [state.books, setStoredBooks]);
 
-  useEffect(() => {
-    setStoredCurrentPage(state.currentPage);
-  }, [state.currentPage, setStoredCurrentPage]);
+//   useEffect(() => {
+//     setStoredCurrentPage(state.currentPage);
+//   }, [state.currentPage, setStoredCurrentPage]);
 
-  // Handle potential errors and syncing states
-  useEffect(() => {
-    if (booksError) {
-      console.error("Error syncing books:", booksError);
-    }
-    if (pageError) {
-      console.error("Error syncing current page:", pageError);
-    }
-  }, [booksError, pageError]);
+//   // Handle potential errors and syncing states
+//   useEffect(() => {
+//     if (booksError) {
+//       console.error("Error syncing books:", booksError);
+//     }
+//     if (pageError) {
+//       console.error("Error syncing current page:", pageError);
+//     }
+//   }, [booksError, pageError]);
 
-  useEffect(() => {
-    if (isSyncingBooks) {
-      console.log("Syncing books to the backend...");
-    }
-  }, [isSyncingBooks]);
+//   useEffect(() => {
+//     if (isSyncingBooks) {
+//       console.log("Syncing books to the backend...");
+//     }
+//   }, [isSyncingBooks]);
 
-  useEffect(() => {
-    if (isSyncingPage) {
-      console.log("Syncing current page to the backend...");
-    }
-  }, [isSyncingPage]);
+//   useEffect(() => {
+//     if (isSyncingPage) {
+//       console.log("Syncing current page to the backend...");
+//     }
+//   }, [isSyncingPage]);
 
-  return [state, dispatch] as [State, React.Dispatch<Action>];
-};
+//   return [state, dispatch] as [State, React.Dispatch<Action>];
+// };
 
-export default useBooksReducer;
+// export default useBooksReducer;
 

@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Book } from '../types';
-import '../App.scss';
 
 interface BookListProps {
     books: Book[];
@@ -8,11 +7,11 @@ interface BookListProps {
     updateBook: (book: Book) => void;
 }
 
-const BookList: React.FC<BookListProps> = ({ books, deleteBook, updateBook }) => {
-    const [editBookId, setEditBookId] = useState<number | null>(null);
-    const [editTitle, setEditTitle] = useState('');
-    const [editAuthor, setEditAuthor] = useState('');
-    const [editYear, setEditYear] = useState('');
+const Repolist: React.FC<BookListProps> = ({ books, deleteBook, updateBook }) => {
+    const [editBookId, setEditBookId] = React.useState<number | null>(null);
+    const [editTitle, setEditTitle] = React.useState('');
+    const [editAuthor, setEditAuthor] = React.useState('');
+    const [editYear, setEditYear] = React.useState('');
 
     const handleDelete = (id: number) => {
         deleteBook(id);
@@ -22,7 +21,7 @@ const BookList: React.FC<BookListProps> = ({ books, deleteBook, updateBook }) =>
         setEditBookId(book.id);
         setEditTitle(book.title);
         setEditAuthor(book.author);
-        setEditYear(book.year.toString());
+        setEditYear(String(book.year));
     };
 
     const handleSave = async (id: number) => {
@@ -36,7 +35,7 @@ const BookList: React.FC<BookListProps> = ({ books, deleteBook, updateBook }) =>
 
     return (
         <div className="booklist">
-            <table border={1}>
+            <table>
                 <thead>
                     <tr>
                         <th>Title</th>
@@ -50,11 +49,11 @@ const BookList: React.FC<BookListProps> = ({ books, deleteBook, updateBook }) =>
                         <tr key={book.id}>
                             <td>
                                 {editBookId === book.id ? (
-                                    <input 
-                                        type="text" 
-                                        value={editTitle} 
-                                        onChange={(e) => setEditTitle(e.target.value)} 
-                                        title='Title'
+                                    <input
+                                        type="text"
+                                        value={editTitle}
+                                        onChange={e => setEditTitle(e.target.value)}
+                                        title='title'
                                     />
                                 ) : (
                                     book.title
@@ -62,11 +61,11 @@ const BookList: React.FC<BookListProps> = ({ books, deleteBook, updateBook }) =>
                             </td>
                             <td>
                                 {editBookId === book.id ? (
-                                    <input 
-                                        type="text" 
-                                        value={editAuthor} 
-                                        onChange={(e) => setEditAuthor(e.target.value)} 
-                                        title='Author'
+                                    <input
+                                        type="text"
+                                        value={editAuthor}
+                                        onChange={e => setEditAuthor(e.target.value)}
+                                        title='author'
                                     />
                                 ) : (
                                     book.author
@@ -74,11 +73,11 @@ const BookList: React.FC<BookListProps> = ({ books, deleteBook, updateBook }) =>
                             </td>
                             <td>
                                 {editBookId === book.id ? (
-                                    <input 
-                                        type="number" 
-                                        value={editYear} 
-                                        onChange={(e) => setEditYear(e.target.value)} 
-                                        title='Publication Year'
+                                    <input
+                                        type="number"
+                                        value={editYear}
+                                        onChange={e => setEditYear(e.target.value)}
+                                        title='year'
                                     />
                                 ) : (
                                     book.year
@@ -105,5 +104,4 @@ const BookList: React.FC<BookListProps> = ({ books, deleteBook, updateBook }) =>
     );
 };
 
-export default BookList;
-
+export default Repolist;

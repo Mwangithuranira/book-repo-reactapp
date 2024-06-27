@@ -1,57 +1,38 @@
-import React, { useCallback, useEffect } from 'react';
-import RepoItem from './components/repoitem';
+import React, { useCallback, useEffect, useState } from 'react';
+import Repoitem from './components/repoitem';
 import BookList from './components/repolist';
 import Page from './components/repopage';
-import { useBooksReducer } from './hooks/usereporeducer';
 import './App.scss';
 
 const App: React.FC = () => {
-    const [state, dispatch] = useBooksReducer();
+    const [books, setBooks] = useState<Book[]>([]);
+    const [loading, setLoading] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [searchQuery, setSearchQuery] = useState('');
 
-    // Fetch books from the API on initial load
     useEffect(() => {
-        const fetchBooks = async () => {
-            try {
-                const response = await fetch('https://book-repo-backend.onrender.com/api/books');
-                if (!response.ok) {
-                    throw new Error(`Failed to fetch books: ${response.status}`);
-                }
-                const data = await response.json();
-                dispatch({ type: 'SET_BOOKS', payload: data });
-            } catch (error) {
-                console.error('Error fetching books:', error);
-            }
-        };
-
         fetchBooks();
-    }, [dispatch]);
+    }, []);
 
-    const handleSearch = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-        dispatch({ type: 'SET_SEARCH_QUERY', payload: event.target.value });
-    }, [dispatch]);
-
-    const addBook = async (newBook: { title: string; author: string; year: number }) => {
+    const fetchBooks = async () => {
+        setLoading(true);
         try {
-            const response = await fetch('https://book-repo-backend.onrender.com/api/books', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(newBook),
-            });
-
+            const response = await fetch('https://book-repo-backend.onrender.com/api/books');
             if (!response.ok) {
-                throw new Error('Failed to add book');
+                throw new Error('Failed to fetch books');
             }
-
-            const addedBook = await response.json();
-            dispatch({ type: 'ADD_BOOK', payload: addedBook });
+            const data = await response.json();
+            setBooks(data);
         } catch (error) {
-            console.error('Error adding book:', error);
+            console.error('Error fetching books:', error);
+        } finally {
+            setLoading(false);
         }
     };
 
+  
     const deleteBook = async (id: number) => {
+        setLoading(true);
         try {
             const response = await fetch(`https://book-repo-backend.onrender.com/api/books/${id}`, {
                 method: 'DELETE',
@@ -61,13 +42,16 @@ const App: React.FC = () => {
                 throw new Error('Failed to delete book');
             }
 
-            dispatch({ type: 'DELETE_BOOK', payload: id });
+            setBooks(books.filter(book => book.id !== id));
         } catch (error) {
             console.error('Error deleting book:', error);
+        } finally {
+            setLoading(false);
         }
     };
 
     const updateBook = async (book: { id: number; title: string; author: string; year: number }) => {
+        setLoading(true);
         try {
             const response = await fetch(`https://book-repo-backend.onrender.com/api/books/${book.id}`, {
                 method: 'PUT',
@@ -81,42 +65,62 @@ const App: React.FC = () => {
                 throw new Error('Failed to update book');
             }
 
-            const updatedBook = await response.json();
-            dispatch({ type: 'UPDATE_BOOK', payload: updatedBook });
+            setBooks(books.map(b => (b.id === book.id ? { ...b, ...book } : b)));
         } catch (error) {
             console.error('Error updating book:', error);
+        } finally {
+            setLoading(false);
         }
     };
 
-    const filteredBooks = state.books.filter(book =>
-        book.title && book.title.toLowerCase().includes(state.searchQuery.toLowerCase())
+    const handleSearch = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchQuery(event.target.value);
+    }, []);
+
+    const filteredBooks = books.filter(book =>
+        book.title.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
-    const currentBooks = filteredBooks.slice(
-        (state.currentPage - 1) * state.booksPerPage,
-        state.currentPage * state.booksPerPage
-    );
+    const handlePageChange = useCallback((page: number) => {
+        setCurrentPage(page);
+    }, []);
+
+    const booksPerPage = 5;
+    const indexOfLastBook = currentPage * booksPerPage;
+    const indexOfFirstBook = indexOfLastBook - booksPerPage;
+    const currentBooks = filteredBooks.slice(indexOfFirstBook, indexOfLastBook);
 
     return (
-        <div>
-            <h1>Book Repository</h1>
-            <RepoItem addBook={addBook} />
-            <input
-                type="text"
-                value={state.searchQuery}
-                onChange={handleSearch}
-                placeholder="Search by title"
-            />
-            <BookList books={currentBooks} deleteBook={deleteBook} updateBook={updateBook} />
-            <Page
-                currentPage={state.currentPage}
-                booksPerPage={state.booksPerPage}
-                totalBooks={filteredBooks.length}
-                dispatch={dispatch}
-            />
+        <div className="app">
+            {loading && <div className="loader" />}
+            <div className="content">
+                <h1>Book Repository</h1>
+                <Repoitem  />
+                <div className="search-bar">
+                    <input
+                        type="text"
+                        value={searchQuery}
+                        onChange={handleSearch}
+                        placeholder="Search by title"
+                    />
+                </div>
+                <BookList books={currentBooks} deleteBook={deleteBook} updateBook={updateBook} />
+                <Page
+                    currentPage={currentPage}
+                    booksPerPage={booksPerPage}
+                    totalBooks={filteredBooks.length}
+                    onPageChange={handlePageChange}
+                />
+            </div>
         </div>
     );
 };
 
 export default App;
 
+interface Book {
+    id: number;
+    title: string;
+    author: string;
+    year: number;
+}
