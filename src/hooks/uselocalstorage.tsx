@@ -1,7 +1,9 @@
 import { useState, useEffect, Dispatch, SetStateAction } from 'react';
 
-function useLocalStorage<T>(key: string, initialValue: T, apiEndpoint: string): [T, Dispatch<SetStateAction<T>>] {
+function useLocalStorage<T>(key: string, initialValue: T, apiEndpoint: string): [T, Dispatch<SetStateAction<T>>, boolean, string | null] {
     const [storedValue, setStoredValue] = useState<T>(initialValue);
+    const [isSyncing, setIsSyncing] = useState<boolean>(false);
+
 
     // Fetch initial data from the backend
     useEffect(() => {
@@ -9,13 +11,14 @@ function useLocalStorage<T>(key: string, initialValue: T, apiEndpoint: string): 
             try {
                 const response = await fetch(apiEndpoint);
                 if (!response.ok) {
-                    throw new Error('Failed to fetch data');
+                    throw new Error(`Failed to fetch data: ${response.status}`);
                 }
                 const data = await response.json();
                 setStoredValue(data);
                 window.localStorage.setItem(key, JSON.stringify(data));
             } catch (error) {
-                console.log(error);
+                console.error('Fetch error:', error);
+               
                 // Fallback to localStorage if the backend fetch fails
                 const item = window.localStorage.getItem(key);
                 if (item) {
@@ -32,27 +35,34 @@ function useLocalStorage<T>(key: string, initialValue: T, apiEndpoint: string): 
         try {
             window.localStorage.setItem(key, JSON.stringify(storedValue));
         } catch (error) {
-            console.log(error);
+            console.error('LocalStorage error:', error);
         }
     }, [key, storedValue]);
 
-    // Sync with backend
+    // Debounced sync with backend
     useEffect(() => {
-        const syncWithBackend = async () => {
+        const handler = setTimeout(async () => {
+            setIsSyncing(true);
             try {
-                await fetch(apiEndpoint, {
+                const response = await fetch(apiEndpoint, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify(storedValue),
                 });
+                if (!response.ok) {
+                    throw new Error(`Failed to sync with backend: ${response.status}`);
+                }
+                setIsSyncing(false);
             } catch (error) {
-                console.log(error);
+                console.error('Sync error:', error);
+                
+                setIsSyncing(false);
             }
-        };
+        }, 1000); // Adjust the debounce delay as needed
 
-        syncWithBackend();
+        return () => clearTimeout(handler);
     }, [apiEndpoint, storedValue]);
 
     useEffect(() => {
@@ -69,7 +79,7 @@ function useLocalStorage<T>(key: string, initialValue: T, apiEndpoint: string): 
         };
     }, [key, initialValue]);
 
-    return [storedValue, setStoredValue];
+    return [storedValue, setStoredValue, isSyncing, window.localStorage.getItem(key)];
 }
 
 export default useLocalStorage;

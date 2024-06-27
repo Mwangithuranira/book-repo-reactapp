@@ -5,7 +5,7 @@ interface BookFormProps {
     addBook: (newBook: { title: string; author: string; year: number }) => Promise<void>;
 }
 
-const Repoitem: React.FC<BookFormProps> = ({ addBook }) => {
+const RepoItem: React.FC<BookFormProps> = ({ addBook }) => {
     const titleRef = useRef<HTMLInputElement>(null);
     const authorRef = useRef<HTMLInputElement>(null);
     const yearRef = useRef<HTMLInputElement>(null);
@@ -30,7 +30,7 @@ const Repoitem: React.FC<BookFormProps> = ({ addBook }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="book-form">
             <input ref={titleRef} type="text" placeholder="Title" required />
             <input ref={authorRef} type="text" placeholder="Author" required />
             <input ref={yearRef} type="number" placeholder="Publication Year" required />
@@ -39,4 +39,4 @@ const Repoitem: React.FC<BookFormProps> = ({ addBook }) => {
     );
 };
 
-export default Repoitem;
+export default RepoItem;

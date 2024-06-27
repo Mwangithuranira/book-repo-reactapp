@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Book, } from '../types';
+import { Book } from '../types';
 import '../App.scss';
 
 interface BookListProps {
@@ -25,8 +25,8 @@ const BookList: React.FC<BookListProps> = ({ books, deleteBook, updateBook }) =>
         setEditYear(book.year.toString());
     };
 
-    const handleSave = (id: number) => {
-        updateBook({ id, title: editTitle, author: editAuthor, year: Number(editYear) });
+    const handleSave = async (id: number) => {
+        await updateBook({ id, title: editTitle, author: editAuthor, year: Number(editYear) });
         setEditBookId(null);
     };
 
@@ -106,3 +106,4 @@ const BookList: React.FC<BookListProps> = ({ books, deleteBook, updateBook }) =>
 };
 
 export default BookList;
+

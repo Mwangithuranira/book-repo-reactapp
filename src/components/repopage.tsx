@@ -31,7 +31,7 @@ const Page: React.FC<PaginationProps> = ({
     };
 
     return (
-        <div>
+        <div className="pagination">
             <button onClick={handlePrev} disabled={currentPage === 1}>
                 Previous
             </button>

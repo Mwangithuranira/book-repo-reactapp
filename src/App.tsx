@@ -1,5 +1,5 @@
-import React, { useCallback } from 'react';
-import Repoitem from './components/repoitem';
+import React, { useCallback, useEffect } from 'react';
+import RepoItem from './components/repoitem';
 import BookList from './components/repolist';
 import Page from './components/repopage';
 import { useBooksReducer } from './hooks/usereporeducer';
@@ -7,6 +7,24 @@ import './App.scss';
 
 const App: React.FC = () => {
     const [state, dispatch] = useBooksReducer();
+
+    // Fetch books from the API on initial load
+    useEffect(() => {
+        const fetchBooks = async () => {
+            try {
+                const response = await fetch('https://book-repo-backend.onrender.com/api/books');
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch books: ${response.status}`);
+                }
+                const data = await response.json();
+                dispatch({ type: 'SET_BOOKS', payload: data });
+            } catch (error) {
+                console.error('Error fetching books:', error);
+            }
+        };
+
+        fetchBooks();
+    }, [dispatch]);
 
     const handleSearch = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         dispatch({ type: 'SET_SEARCH_QUERY', payload: event.target.value });
@@ -29,7 +47,7 @@ const App: React.FC = () => {
             const addedBook = await response.json();
             dispatch({ type: 'ADD_BOOK', payload: addedBook });
         } catch (error) {
-            console.error(error);
+            console.error('Error adding book:', error);
         }
     };
 
@@ -45,7 +63,7 @@ const App: React.FC = () => {
 
             dispatch({ type: 'DELETE_BOOK', payload: id });
         } catch (error) {
-            console.error(error);
+            console.error('Error deleting book:', error);
         }
     };
 
@@ -63,14 +81,15 @@ const App: React.FC = () => {
                 throw new Error('Failed to update book');
             }
 
-            dispatch({ type: 'UPDATE_BOOK', payload: book });
+            const updatedBook = await response.json();
+            dispatch({ type: 'UPDATE_BOOK', payload: updatedBook });
         } catch (error) {
-            console.error(error);
+            console.error('Error updating book:', error);
         }
     };
 
     const filteredBooks = state.books.filter(book =>
-        book.title.toLowerCase().includes(state.searchQuery.toLowerCase())
+        book.title && book.title.toLowerCase().includes(state.searchQuery.toLowerCase())
     );
 
     const currentBooks = filteredBooks.slice(
@@ -81,7 +100,7 @@ const App: React.FC = () => {
     return (
         <div>
             <h1>Book Repository</h1>
-            <Repoitem addBook={addBook} />
+            <RepoItem addBook={addBook} />
             <input
                 type="text"
                 value={state.searchQuery}
@@ -100,3 +119,4 @@ const App: React.FC = () => {
 };
 
 export default App;
+
