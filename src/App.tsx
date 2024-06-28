@@ -1,4 +1,4 @@
-import './App.css'
+import './App.scss'
 // import Form from './components/form'
 import BookList from './components/repolist'
 // import useBooksReducer from './hooks/bookReducer'

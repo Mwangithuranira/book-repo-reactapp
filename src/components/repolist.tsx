@@ -1,4 +1,4 @@
-import "../App.css";
+import "../App.scss";
 import React, { useState, useRef, useEffect, useCallback, useReducer } from "react";
 import { Book,state } from "../types";
 
