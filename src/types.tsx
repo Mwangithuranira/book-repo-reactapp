@@ -3,10 +3,10 @@ export interface Book {
     id: number;
     title: string;
     author: string;
-    year: number;
+    publicationyear: number;
 }
 
-export interface State {
+export interface state {
     books: Book[];
     searchQuery: string;
     currentPage: number;
