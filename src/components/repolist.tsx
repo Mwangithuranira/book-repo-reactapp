@@ -4,7 +4,7 @@ import { Book,state } from "../types";
 
 import { reducer } from "../hooks/usereporeducer";
 
-import "../App.css";
+
 import axios from "axios";
 interface BookListProps {
   booksPerPage: number;
