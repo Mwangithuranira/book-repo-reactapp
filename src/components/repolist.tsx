@@ -17,7 +17,7 @@ const initialstate: state = {
   booksPerPage: 5,
 };
 
-const bookList: React.FC<BookListProps> = ({ booksPerPage }) => {
+const BookList: React.FC<BookListProps> = ({ booksPerPage }) => {
   const [addBook, setAddBook] = useState<Book[]>([]);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
@@ -133,8 +133,12 @@ const bookList: React.FC<BookListProps> = ({ booksPerPage }) => {
 
   //relender the page after delete and update
   useEffect(() => {
-    getBooks();
+    
   }, [deleteData, updateData, addBook, searchItem,State.searchquery]);
+
+  useEffect(() => {
+    getBooks();
+  }, );
 
   const handleUpdateBook = async (book: Book) => {
     setEditBook(book.id);
@@ -321,4 +325,4 @@ const bookList: React.FC<BookListProps> = ({ booksPerPage }) => {
   );
 };
 
-export default bookList;
+export default BookList;
