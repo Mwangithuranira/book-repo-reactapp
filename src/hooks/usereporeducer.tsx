@@ -1,9 +1,9 @@
-import { Book, State, Action } from '../types';
+import { Book, state, Action } from '../types';
 
 
 
 
-export const reducer = (state: State, action: Action): State => {
+export const reducer = (state: state, action: Action): state => {
   switch (action.type) {
     case "SET_BOOKS":
       return { ...state, books: action.payload };

@@ -41,7 +41,7 @@ const BookList: React.FC<BookListProps> = ({ booksPerPage }) => {
     userData && userData.slice(indexOfFirstBook, indexOfLastBook);
   const totalPages = Math.ceil(userData && userData.length / booksPerPage);
 
-  const [State, dispatch] = useReducer(reducer, initialstate);
+  const [state, dispatch] = useReducer(reducer, initialstate);
 
   const handleSearch = useCallback(
     (searchTerm: React.ChangeEvent<HTMLInputElement>) => {
@@ -60,13 +60,13 @@ const BookList: React.FC<BookListProps> = ({ booksPerPage }) => {
       let jsonData = await response.data;
 
       // Filter books if searchquery is not empty
-      if (State.searchquery.trim() !== "") {
+      if (state.searchQuery.trim() !== "") {
         jsonData = jsonData.filter(
           (book: Book) =>
             book.title
               .toLowerCase()
-              .includes(State.searchquery.toLowerCase()) ||
-            book.author.toLowerCase().includes(State.searchquery.toLowerCase())
+              .includes(state.searchQuery.toLowerCase()) ||
+            book.author.toLowerCase().includes(state.searchQuery.toLowerCase())
         );
       }
 
@@ -134,7 +134,7 @@ const BookList: React.FC<BookListProps> = ({ booksPerPage }) => {
   //relender the page after delete and update
   useEffect(() => {
     
-  }, [deleteData, updateData, addBook, searchItem,State.searchquery]);
+  }, [deleteData, updateData, addBook, searchItem, state.searchQuery]);
 
   useEffect(() => {
     getBooks();
@@ -203,7 +203,7 @@ const BookList: React.FC<BookListProps> = ({ booksPerPage }) => {
         <input
           type="text"
           placeholder="Enter book to search..."
-          value={State.searchquery}
+          value={state.searchQuery}
           onChange={handleSearch}
           title="text"
         />
