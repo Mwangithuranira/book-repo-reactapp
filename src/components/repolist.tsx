@@ -146,7 +146,7 @@ const bookList: React.FC<BookListProps> = ({ booksPerPage }) => {
     setEditBook(book.id);
     setEditTitle(book.title);
     setEditAuthor(book.author);
-    setEditPublicationYear(book.publicationYear);
+    setEditPublicationYear(book.publicationyear);
     const response = await axios.put(
       'https://book-repo-backend.onrender.com/api/books/${book.id}',
       {
